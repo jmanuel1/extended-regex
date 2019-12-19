@@ -53,6 +53,10 @@ class ExtendedRegex {
     return false;
   }
 
+  get source() {
+    return this._seq;
+  }
+
   match(seq) {
     return !!this._match(seq);
   }
@@ -115,6 +119,7 @@ console.log('simple pattern');
 regex = makeRegex(simplePattern);
 console.log(regex.match(sequence));
 console.log(regex.exec(sequence));
+console.log(regex.source);
 
 console.log('zero or more');
 regex = makeRegex(zeroOrMore);

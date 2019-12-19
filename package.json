@@ -1,0 +1,9 @@
+{
+  "name": "extended-regex",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jason Manuel <jama.indo@hotmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": { "start": "node index.js" }
+}

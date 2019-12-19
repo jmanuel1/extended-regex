@@ -2,6 +2,7 @@ class ExtendedRegex {
 
   constructor(seq) {
     this._seq = seq;
+    this.lastIndex = 0; // always zero without g
   }
 
   _match(seq) {
@@ -44,7 +45,8 @@ class ExtendedRegex {
       posInPattern++;
       if (posInPattern >= this._seq.length) {
         return {
-          length: i - matchStart + 1
+          length: i - matchStart + 1,
+          index: matchStart
         };
       }
     }
@@ -53,6 +55,20 @@ class ExtendedRegex {
 
   match(seq) {
     return !!this._match(seq);
+  }
+
+  /* TODO: global, sticky flags. For now, pretend like they don't exist. Also,
+  /* pretend like there is no capturing. */
+  exec(seq) {
+    const match = this._match(seq);
+    if (match) {
+      const fullMatch = seq.slice(match.index, match.index + match.length);
+      const result = [fullMatch];
+      result.index = match.index;
+      result.input = seq;
+      return result;
+    }
+    return null;
   }
 }
 
@@ -98,6 +114,7 @@ let regex;
 console.log('simple pattern');
 regex = makeRegex(simplePattern);
 console.log(regex.match(sequence));
+console.log(regex.exec(sequence));
 
 console.log('zero or more');
 regex = makeRegex(zeroOrMore);
@@ -106,3 +123,4 @@ console.log(regex.match(sequence));
 console.log('beginning of input');
 regex = makeRegex(beginningOfInput);
 console.log(regex.match(sequence));
+console.log(regex.exec(sequence));
